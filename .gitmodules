@@ -1,0 +1,4 @@
+[submodule "curses-shell"]
+	path = curses-shell
+	url = https://github.com/nwoolls/weechat.git
+	branch = develop
