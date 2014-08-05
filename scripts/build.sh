@@ -5,6 +5,10 @@ base_dir=$(cd $(dirname "$0")/..; pwd)
 cd $base_dir
 
 # fetch sub-projects
+# revert any changes
+cd curses-shell
+git checkout .
+cd $base_dir
 # first init the directory, in case it does not exist
 git submodule update --remote --init
 # next merge in any remote changes, in case it does exist
