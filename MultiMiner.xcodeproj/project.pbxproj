@@ -8,18 +8,19 @@
 
 /* Begin PBXFileReference section */
 		D28A53CC199069A900E36B91 /* AUTHORS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
-		D28A53CD199069A900E36B91 /* autogen.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = autogen.sh; sourceTree = "<group>"; };
 		D28A53CE199069A900E36B91 /* branding-cust.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "branding-cust.cmake"; sourceTree = "<group>"; };
 		D28A53CF199069A900E36B91 /* cmake_install.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cmake_install.cmake; sourceTree = "<group>"; };
 		D28A53E2199069A900E36B91 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		D28A53E3199069A900E36B91 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
 		D28A5949199069AC00E36B91 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		D28A594A199069AC00E36B91 /* make_curses_shell.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = make_curses_shell.sh; sourceTree = "<group>"; };
-		D28A594B199069AC00E36B91 /* make_debug.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = make_debug.sh; sourceTree = "<group>"; };
 		D28A594C199069AC00E36B91 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		D28A5995199069AC00E36B91 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		D28A59A6199069AC00E36B91 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		D28A59A8199069AC00E36B91 /* miner-plugin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "miner-plugin.c"; sourceTree = "<group>"; };
+		D28A59AE1990738800E36B91 /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
+		D28A59AF1990738800E36B91 /* install.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = install.sh; sourceTree = "<group>"; };
+		D28A59B1199074D400E36B91 /* cmake_uninstall.cmake.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cmake_uninstall.cmake.in; sourceTree = "<group>"; };
+		D28A59B21990751500E36B91 /* uninstall.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = uninstall.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -27,16 +28,15 @@
 			isa = PBXGroup;
 			children = (
 				D28A53CC199069A900E36B91 /* AUTHORS */,
-				D28A53CD199069A900E36B91 /* autogen.sh */,
 				D28A53CE199069A900E36B91 /* branding-cust.cmake */,
 				D28A53CF199069A900E36B91 /* cmake_install.cmake */,
+				D28A59B1199074D400E36B91 /* cmake_uninstall.cmake.in */,
 				D28A53E2199069A900E36B91 /* CMakeLists.txt */,
 				D28A53E3199069A900E36B91 /* COPYING */,
 				D28A5949199069AC00E36B91 /* LICENSE */,
-				D28A594A199069AC00E36B91 /* make_curses_shell.sh */,
-				D28A594B199069AC00E36B91 /* make_debug.sh */,
 				D28A594C199069AC00E36B91 /* Makefile */,
 				D28A5995199069AC00E36B91 /* README */,
+				D28A59AD1990738800E36B91 /* scripts */,
 				D28A5996199069AC00E36B91 /* src */,
 			);
 			sourceTree = "<group>";
@@ -48,6 +48,16 @@
 				D28A59A8199069AC00E36B91 /* miner-plugin.c */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		D28A59AD1990738800E36B91 /* scripts */ = {
+			isa = PBXGroup;
+			children = (
+				D28A59AE1990738800E36B91 /* build.sh */,
+				D28A59AF1990738800E36B91 /* install.sh */,
+				D28A59B21990751500E36B91 /* uninstall.sh */,
+			);
+			path = scripts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
