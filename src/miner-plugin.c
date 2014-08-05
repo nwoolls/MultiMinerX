@@ -3,7 +3,7 @@
 #include "weechat-plugin.h"
 
 WEECHAT_PLUGIN_NAME("miner");
-WEECHAT_PLUGIN_DESCRIPTION("Test plugin for " PACKAGE_NAME);
+WEECHAT_PLUGIN_DESCRIPTION("Cryptocurrency mining plugin for MultiMiner");
 WEECHAT_PLUGIN_AUTHOR("Nathanial Woolls <nwoolls@gmail.com>");
 WEECHAT_PLUGIN_VERSION("0.1");
 WEECHAT_PLUGIN_LICENSE("GPL3");
