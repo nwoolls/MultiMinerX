@@ -51,6 +51,11 @@ then
 	app_make_args="${app_make_args} -DCMAKE_INSTALL_PREFIX:PATH=${output_dir}"
 fi
 
+if [ "$(uname)" == "Darwin" ]; then
+	# Guile plugin causes app to crash on /quit on OS X
+	shell_make_args="${shell_make_args} -DENABLE_GUILE=OFF"
+fi
+
 cd curses-shell
 rm CMakeCache.txt
 cmake $shell_make_args .
