@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# cd to get around . returned if script is in working dir
+scripts_dir=$(cd $(dirname "$0"); pwd)
+cd $scripts_dir
+
 debug=false
 
 shopt -s nocasematch
