@@ -1,4 +1,4 @@
 MultiMinerX
 ===========
 
-Next-generation MultiMiner successor to MultiMiner
+Next-generation successor to MultiMiner
