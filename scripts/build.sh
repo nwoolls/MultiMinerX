@@ -65,3 +65,4 @@ cd $base_dir
 rm CMakeCache.txt
 cmake $app_make_args .
 make install
+rm -rf output_dir
