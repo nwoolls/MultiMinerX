@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		D272EF7C19909EF800BFD3CC /* miner-command.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "miner-command.h"; sourceTree = "<group>"; };
+		D272EF7D19909F0100BFD3CC /* miner-command.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "miner-command.c"; sourceTree = "<group>"; };
+		D272EF7F1990A08900BFD3CC /* miner-device.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "miner-device.h"; sourceTree = "<group>"; };
+		D272EF811990A09A00BFD3CC /* miner-device.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "miner-device.c"; sourceTree = "<group>"; };
+		D272EF821990A80500BFD3CC /* miner-plugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "miner-plugin.h"; sourceTree = "<group>"; };
 		D28A53CC199069A900E36B91 /* AUTHORS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
 		D28A53CE199069A900E36B91 /* branding-cust.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "branding-cust.cmake"; sourceTree = "<group>"; };
 		D28A53CF199069A900E36B91 /* cmake_install.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cmake_install.cmake; sourceTree = "<group>"; };
@@ -45,7 +50,12 @@
 			isa = PBXGroup;
 			children = (
 				D28A59A6199069AC00E36B91 /* CMakeLists.txt */,
+				D272EF7D19909F0100BFD3CC /* miner-command.c */,
+				D272EF7C19909EF800BFD3CC /* miner-command.h */,
+				D272EF811990A09A00BFD3CC /* miner-device.c */,
+				D272EF7F1990A08900BFD3CC /* miner-device.h */,
 				D28A59A8199069AC00E36B91 /* miner-plugin.c */,
+				D272EF821990A80500BFD3CC /* miner-plugin.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -65,11 +75,12 @@
 /* Begin PBXLegacyTarget section */
 		D28A53C61990699700E36B91 /* MultiMiner */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "$(ACTION)";
+			buildArgumentsString = "install $(ACTION)";
 			buildConfigurationList = D28A53C91990699700E36B91 /* Build configuration list for PBXLegacyTarget "MultiMiner" */;
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/nwoolls/Dropbox/GNU-Projects/MultiMiner";
 			dependencies = (
 			);
 			name = MultiMiner;
