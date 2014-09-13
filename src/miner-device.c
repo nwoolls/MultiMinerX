@@ -47,19 +47,18 @@ void miner_device_dump_fd(int const fd)
 	}
 }
 
-void miner_device_scan()
+static
+void miner_dump_command(char * const cmd[])
 {
-    int stdout_pipes[2];
+	int stdout_pipes[2];
 	int stderr_pipes[2];
 
-    int bytes_read;
-    char buf[0x100] = { 0 };
-    pid_t pid;
+	int bytes_read;
+	char buf[0x100] = { 0 };
+	pid_t pid;
 
-    pipe(stdout_pipes);
-    pipe(stderr_pipes);
-
-    char *cmd[] = { "bfgminer", "--scrypt", "-S auto", "-d?", NULL };
+	pipe(stdout_pipes);
+	pipe(stderr_pipes);
 
 	pid = fork();
 
@@ -86,11 +85,11 @@ void miner_device_scan()
 		close(stdout_pipes[WRITE]);
 		close(stderr_pipes[WRITE]);
 
-        execvp(cmd[0], cmd);
+		execvp(cmd[0], cmd);
 
 		// execvp only returns on failure
-        perror("execvp");
-        _exit(EXIT_FAILURE);
+		perror("execvp");
+		_exit(EXIT_FAILURE);
 	}
 
 	/* parent */
@@ -100,6 +99,7 @@ void miner_device_scan()
 	close(stderr_pipes[WRITE]);
 
 	miner_device_dump_fd(stdout_pipes[READ]);
+	miner_device_dump_fd(stderr_pipes[READ]);
 
 	// close pipes
 	close(stdout_pipes[READ]);
@@ -107,4 +107,30 @@ void miner_device_scan()
 
 	/* wait for the child we forked */
 	wait(NULL);
+}
+
+void miner_device_scan()
+{
+	char * const cmd[] =
+	{
+		"bfgminer",
+		"-d?",
+		"--scrypt",
+		"-S", "auto",
+		NULL
+	};
+	miner_dump_command(cmd);
+}
+
+void miner_device_probe()
+{
+	char * const cmd[] =
+	{
+		"bfgminer",
+		"-d?",
+		"--scrypt",
+		"-S", "all",
+		NULL
+	};
+	miner_dump_command(cmd);
 }

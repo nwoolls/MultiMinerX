@@ -12,4 +12,7 @@
 extern
 void miner_device_scan();
 
+extern
+void miner_device_probe();
+
 #endif

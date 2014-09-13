@@ -26,6 +26,7 @@ int miner_command_device(void *data, struct t_gui_buffer *buffer, int argc,
 	else if (weechat_strcasecmp(argv[1], "probe") == 0)
 	{
 		weechat_printf(NULL, "probe");
+		miner_device_probe();
 	}
 	else if (weechat_strcasecmp(argv[1], "scan") == 0)
 	{
