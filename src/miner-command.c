@@ -47,10 +47,10 @@ void miner_command_init()
 						  "device",
 						  N_("list, probe or scan mining devices"),
 						  N_("list|listfull|probe|scan"),
-						  N_("    list: list devices (without argument, this list is displayed)\n"
-							 "listfull: list devices with detailed info for each device\n"
+						  N_("    list: list known mining devices\n"
+							 "listfull: list known mining devices (with details)\n"
+                             "    scan: scan PC hardware for mining devices (non-invasive)\n"
 							 "   probe: probe PC hardware for mining devices (invasive)\n"
-							 "    scan: scan PC hardware for mining devices (non-invasive)\n"
 							 "\n"
 							 "Examples:\n"),
 						  NULL, &miner_command_device, NULL);
