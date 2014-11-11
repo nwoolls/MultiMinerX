@@ -2,13 +2,13 @@
 
 # cd to get around . returned if script is in working dir
 base_dir=$(cd $(dirname "$0")/..; pwd)
-cd $base_dir
+cd ${base_dir}
 
 # fetch sub-projects
 # revert any changes
 cd curses-shell
 git checkout .
-cd $base_dir
+cd ${base_dir}
 # first init the directory, in case it does not exist
 git submodule update --remote --init
 # next merge in any remote changes, in case it does exist
@@ -39,13 +39,13 @@ mkdir output_dir
 shell_make_args="-DENABLE_GENERIC=ON -DENABLE_IRC=OFF -DENABLE_ASPELL=OFF -DENABLE_RELAY=OFF -DENABLE_XFER=OFF"
 app_make_args=""
 
-if [[ $debug == true ]]
+if [[ ${debug} == true ]]
 then
 	shell_make_args="${shell_make_args} -DCMAKE_BUILD_TYPE=Debug"
 	app_make_args="${app_make_args} -DCMAKE_BUILD_TYPE=Debug"
 fi
 
-if [[ $install != true ]]
+if [[ ${install} != true ]]
 then
 	shell_make_args="${shell_make_args} -DCMAKE_INSTALL_PREFIX:PATH=${output_dir}"
 	app_make_args="${app_make_args} -DCMAKE_INSTALL_PREFIX:PATH=${output_dir}"
@@ -58,11 +58,11 @@ fi
 
 cd curses-shell
 rm CMakeCache.txt
-cmake $shell_make_args .
+cmake ${shell_make_args} .
 make install
-cd $base_dir
+cd ${base_dir}
 
 rm CMakeCache.txt
-cmake $app_make_args .
+cmake ${app_make_args} .
 make install
 rm -rf output_dir
