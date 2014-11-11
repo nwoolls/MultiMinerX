@@ -64,9 +64,14 @@ install_manifest.txt
 *.xcworkspacedata
 *.xcuserstate
 *.xccheckout
+*.xcbkptlist
 
 output/debug
 output/release
 
 # OS X files
 *.swp
+
+# CLion files
+.idea/
+
