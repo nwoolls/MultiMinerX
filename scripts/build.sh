@@ -57,12 +57,12 @@ if [ "$(uname)" == "Darwin" ]; then
 fi
 
 cd curses-shell
-rm CMakeCache.txt
+rm -f CMakeCache.txt
 cmake $shell_make_args .
 make install
 cd $base_dir
 
-rm CMakeCache.txt
+rm -f CMakeCache.txt
 cmake $app_make_args .
 make install
 rm -rf output_dir
