@@ -44,14 +44,14 @@ int miner_command_device(void *data, struct t_gui_buffer *buffer, int argc,
 void miner_command_init()
 {
     weechat_hook_command (
-						  "device",
-						  N_("list, probe or scan mining devices"),
-						  N_("list|listfull|probe|scan"),
-						  N_("    list: list known mining devices\n"
-							 "listfull: list known mining devices (with details)\n"
-                             "    scan: scan PC hardware for mining devices (non-invasive)\n"
-							 "   probe: probe PC hardware for mining devices (invasive)\n"
-							 "\n"
-							 "Examples:\n"),
-						  NULL, &miner_command_device, NULL);
+            "device",
+            N_("list, probe or scan mining devices"),
+            N_("list|listfull|probe|scan"),
+            N_("    list: list known mining devices\n"
+               "listfull: list known mining devices (with details)\n"
+               "    scan: scan PC hardware for mining devices (non-invasive)\n"
+               "   probe: probe PC hardware for mining devices (invasive)\n"
+               "\n"
+               "Examples:\n"),
+            NULL, &miner_command_device, NULL);
 }
