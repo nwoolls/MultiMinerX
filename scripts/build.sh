@@ -62,7 +62,7 @@ cmake ${shell_make_args} .
 make install
 cd ${base_dir}
 
-rm CMakeCache.txt
+rm -f CMakeCache.txt
 cmake ${app_make_args} .
 make install
 rm -rf output_dir
