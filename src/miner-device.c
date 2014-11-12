@@ -1,11 +1,3 @@
-//
-//  miner-device.c
-//  MultiMiner
-//
-//  Created by Nathanial Woolls on 8/5/14.
-//  Copyright (c) 2014 Nate Woolls. All rights reserved.
-//
-
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
