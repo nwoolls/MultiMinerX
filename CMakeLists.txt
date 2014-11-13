@@ -3,7 +3,9 @@ cmake_minimum_required(VERSION 2.4)
 project(multiminer C)
 
 # header include directories
-include_directories(curses-shell/src/plugins)
+include_directories(
+    curses-shell/src/core
+    curses-shell/src/plugins)
 
 # plugin sources
 add_subdirectory(src)

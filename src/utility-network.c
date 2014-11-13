@@ -4,18 +4,13 @@
 #include <arpa/inet.h>
 #include <string.h>
 #include <ifaddrs.h>
+#include <stdlib.h>
+#include <weechat-plugin.h>
+#include <wee-list.h>
 
-#include "weechat-plugin.h"
 #include "utility-application.h"
+#include "utility-network.h"
 #include "miner-plugin.h"
-
-struct t_network_interface_info {
-    char host[NI_MAXHOST];
-    char netmask[NI_MAXHOST];
-    char broadcast[NI_MAXHOST];
-    char range_start[NI_MAXHOST];
-    char range_end[NI_MAXHOST];
-};
 
 void network_get_address_host(const struct sockaddr *address, const char host[NI_MAXHOST])
 {
@@ -74,11 +69,10 @@ void network_get_network_interface(const struct ifaddrs *interface, struct t_net
     network_get_ip_range(network_interface);
 }
 
-void network_interface_scan(const struct ifaddrs *interfaces)
+void network_interface_scan(const struct ifaddrs *interfaces, struct t_weelist *list)
 {
     const struct ifaddrs *interface;
     int i;
-    struct t_network_interface_info network_interface;
 
     for (interface = interfaces, i = 0; interface != NULL; interface = interface->ifa_next, i++) {
 
@@ -89,15 +83,24 @@ void network_interface_scan(const struct ifaddrs *interfaces)
 
         if (interface->ifa_addr->sa_family == AF_INET) {
 
-            network_get_network_interface(interface, &network_interface);
+            struct t_network_interface_info *network_interface = malloc(sizeof(struct t_network_interface_info));
+            network_get_network_interface(interface, network_interface);
+            weechat_list_add(list, interface->ifa_name, WEECHAT_LIST_POS_END, network_interface);
 
-            weechat_printf(NULL, "%s: Host[%s] Netmask[%s] Broadcast[%s] Range[%s - %s]",
-                    interface->ifa_name,
-                    network_interface.host,
-                    network_interface.netmask,
-                    network_interface.broadcast,
-                    network_interface.range_start,
-                    network_interface.range_end);
         }
     }
+}
+
+void network_interface_list_free(struct t_weelist *list)
+{
+    struct t_weelist_item *list_item;
+
+    for (list_item = list->items; list_item;
+         list_item = list_item->next_item)
+    {
+        struct t_network_interface_info *network_interface = (struct t_network_interface_info *) list_item->user_data;
+        free(network_interface);
+    }
+
+    weechat_list_free(list);
 }
