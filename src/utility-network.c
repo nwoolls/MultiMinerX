@@ -25,7 +25,7 @@ void network_get_address_host(const struct sockaddr *address, const char host[NI
     }
 }
 
-void network_ntoa(const uint64_t ip_address, const char host[NI_MAXHOST])
+void network_inet_ntoa(const uint64_t ip_address, const char host[NI_MAXHOST])
 {
     struct in_addr address;
     address.s_addr = htonl(ip_address);
@@ -53,8 +53,8 @@ void network_get_ip_range(struct t_network_interface_info *network_interface)
     broadcast_l = ntohl(broadcast_address.s_addr);
     network_l = host_l & netmask_l;
 
-    network_ntoa(network_l + 1, network_interface->range_start);
-    network_ntoa(broadcast_l - 1, network_interface->range_end);
+    network_inet_ntoa(network_l + 1, network_interface->range_start);
+    network_inet_ntoa(broadcast_l - 1, network_interface->range_end);
 }
 
 void network_get_network_interface(const struct ifaddrs *interface, struct t_network_interface_info *network_interface)
@@ -69,7 +69,7 @@ void network_get_network_interface(const struct ifaddrs *interface, struct t_net
     network_get_ip_range(network_interface);
 }
 
-void network_interface_scan(struct t_network_interface_list *list)
+void network_interface_scan(struct t_network_interface_list *interface_list)
 {
     const struct ifaddrs *interface;
     struct ifaddrs *interfaces;
@@ -90,7 +90,7 @@ void network_interface_scan(struct t_network_interface_list *list)
 
             struct t_network_interface_info *network_interface = malloc(sizeof(struct t_network_interface_info));
             network_get_network_interface(interface, network_interface);
-            weechat_list_add(list, interface->ifa_name, WEECHAT_LIST_POS_END, network_interface);
+            weechat_list_add(interface_list, interface->ifa_name, WEECHAT_LIST_POS_END, network_interface);
 
         }
     }
@@ -98,16 +98,15 @@ void network_interface_scan(struct t_network_interface_list *list)
     freeifaddrs(interfaces);
 }
 
-void network_interface_list_free(struct t_network_interface_list *list)
+void network_interface_list_free(struct t_network_interface_list *interface_list)
 {
-    struct t_weelist_item *list_item;
-
-    for (list_item = list->items; list_item;
-         list_item = list_item->next_item)
+    struct t_weelist_item *interface_item;
+    for (interface_item = interface_list->items; interface_item;
+         interface_item = interface_item->next_item)
     {
-        struct t_network_interface_info *network_interface = (struct t_network_interface_info *) list_item->user_data;
+        struct t_network_interface_info *network_interface = (struct t_network_interface_info *) interface_item->user_data;
         free(network_interface);
     }
 
-    weechat_list_free(list);
+    weechat_list_free(interface_list);
 }

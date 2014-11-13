@@ -14,11 +14,11 @@ struct t_network_interface_info {
 #define t_network_interface_list t_weelist
 
 /*
- * Free a t_network_interface_list with a t_network_interface_info allocated in each
- * t_weelist_item.user_data
+ * Free a t_network_interface_list with a t_network_interface_info allocated in
+ * each t_weelist_item.user_data
  */
 extern
-void network_interface_list_free(struct t_network_interface_list *list);
+void network_interface_list_free(struct t_network_interface_list *interface_list);
 
 /*
  * Populate a t_network_interface_list with local IPv4 network interfaces
@@ -26,6 +26,6 @@ void network_interface_list_free(struct t_network_interface_list *list);
  * t_weelist_item.user_data is a t_network_interface_info with host info
  */
 extern
-void network_interface_scan(struct t_network_interface_list *list);
+void network_interface_scan(struct t_network_interface_list *interface_list);
 
 #endif
