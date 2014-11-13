@@ -34,9 +34,8 @@ void network_inet_ntoa(const uint64_t ip_address, const char host[NI_MAXHOST])
 
 void network_inet_aton(const char host[NI_MAXHOST], struct in_addr *address)
 {
-    if (!inet_aton(host, address) ) {
+    if (!inet_aton(host, address))
         application_fail();
-    }
 }
 
 void network_get_ip_range(struct t_network_interface_info *network_interface)
@@ -62,9 +61,8 @@ void network_get_network_interface(const struct ifaddrs *interface, struct t_net
     network_get_address_host(interface->ifa_addr, network_interface->host);
     network_get_address_host(interface->ifa_netmask, network_interface->netmask);
 
-    if (interface->ifa_broadaddr != NULL) {
+    if (interface->ifa_broadaddr != NULL)
         network_get_address_host(interface->ifa_broadaddr, network_interface->broadcast);
-    }
 
     network_get_ip_range(network_interface);
 }
@@ -75,23 +73,21 @@ void network_interface_scan(struct t_network_interface_list *interface_list)
     struct ifaddrs *interfaces;
     int i;
 
-    if (getifaddrs(&interfaces) != 0) {
+    if (getifaddrs(&interfaces) != 0)
         application_fail();
-    }
 
-    for (interface = interfaces, i = 0; interface != NULL; interface = interface->ifa_next, i++) {
-
+    for (interface = interfaces, i = 0; interface != NULL; interface = interface->ifa_next, i++)
+    {
         if (interface->ifa_addr == NULL) continue;
         if ((interface->ifa_flags & IFF_UP) == 0) continue;
         if (interface->ifa_flags & IFF_POINTOPOINT) continue;
         if (interface->ifa_flags & IFF_LOOPBACK) continue;
 
-        if (interface->ifa_addr->sa_family == AF_INET) {
-
+        if (interface->ifa_addr->sa_family == AF_INET)
+        {
             struct t_network_interface_info *network_interface = malloc(sizeof(struct t_network_interface_info));
             network_get_network_interface(interface, network_interface);
             weechat_list_add(interface_list, interface->ifa_name, WEECHAT_LIST_POS_END, network_interface);
-
         }
     }
 
