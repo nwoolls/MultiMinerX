@@ -12,6 +12,7 @@ struct t_network_interface_info {
 };
 
 #define t_network_interface_list t_weelist
+#define t_sockaddr_in_list t_weelist
 
 /*
  * Free a t_network_interface_list with a t_network_interface_info allocated in
@@ -27,5 +28,21 @@ void network_interface_list_free(struct t_network_interface_list *interface_list
  */
 extern
 void network_interface_scan(struct t_network_interface_list *interface_list);
+
+/*
+ * Free a t_sockaddr_in_list with a sockaddr_in allocated in each
+ * t_weelist_item.user_data
+ */
+extern
+void network_address_list_free(struct t_sockaddr_in_list *address_list);
+
+/*
+ * Scan each t_network_interface_info in interface_list from port_start to
+ * port_end, populating address_list with open address/port combinations
+ */
+extern
+void network_port_scan(const struct t_network_interface_list *interface_list,
+        uint16_t port_start, uint16_t port_end,
+        struct t_sockaddr_in_list *address_list);
 
 #endif
