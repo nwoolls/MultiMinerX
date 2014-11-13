@@ -2,8 +2,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <weechat-plugin.h>
 
-#include "weechat-plugin.h"
 #include "miner-plugin.h"
 
 #define READ 0 /* Read end of pipe */

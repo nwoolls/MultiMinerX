@@ -2,8 +2,8 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <ifaddrs.h>
+#include <weechat-plugin.h>
 
-#include "weechat-plugin.h"
 #include "miner-plugin.h"
 #include "utility-application.h"
 #include "utility-network.h"

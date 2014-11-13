@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "weechat-plugin.h"
+#include <weechat-plugin.h>
+
 #include "miner-plugin.h"
 #include "miner-device.h"
 #include "miner-network.h"

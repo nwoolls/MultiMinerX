@@ -1,6 +1,6 @@
 #include <stdlib.h>
+#include <weechat-plugin.h>
 
-#include "weechat-plugin.h"
 #include "miner-plugin.h"
 #include "miner-command.h"
 
