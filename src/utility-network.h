@@ -11,10 +11,21 @@ struct t_network_interface_info {
     char range_end[NI_MAXHOST];
 };
 
-extern
-void network_interface_scan(const struct ifaddrs *interfaces, struct t_weelist *list);
+#define t_network_interface_list t_weelist
 
+/*
+ * Free a t_network_interface_list with a t_network_interface_info allocated in each
+ * t_weelist_item.user_data
+ */
 extern
-void network_interface_list_free(struct t_weelist *list);
+void network_interface_list_free(struct t_network_interface_list *list);
+
+/*
+ * Populate a t_network_interface_list with local IPv4 network interfaces
+ * t_weelist_item.data is the name of the interface
+ * t_weelist_item.user_data is a t_network_interface_info with host info
+ */
+extern
+void network_interface_scan(struct t_network_interface_list *list);
 
 #endif

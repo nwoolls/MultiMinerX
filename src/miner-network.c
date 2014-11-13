@@ -11,13 +11,8 @@
 
 void miner_network_scan()
 {
-    struct ifaddrs *interfaces;
     struct t_weelist *list;
     struct t_weelist_item *list_item;
-
-    if (getifaddrs(&interfaces) != 0) {
-        application_fail();
-    }
 
 
     list = weechat_list_new();
@@ -25,7 +20,7 @@ void miner_network_scan()
         application_fail();
     }
 
-    network_interface_scan(interfaces, list);
+    network_interface_scan(list);
 
     for (list_item = list->items; list_item;
          list_item = list_item->next_item)
@@ -41,7 +36,6 @@ void miner_network_scan()
                 network_interface->range_end);
     }
 
-    freeifaddrs(interfaces);
     network_interface_list_free(list);
 }
 

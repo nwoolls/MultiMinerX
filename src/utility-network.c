@@ -69,10 +69,15 @@ void network_get_network_interface(const struct ifaddrs *interface, struct t_net
     network_get_ip_range(network_interface);
 }
 
-void network_interface_scan(const struct ifaddrs *interfaces, struct t_weelist *list)
+void network_interface_scan(struct t_network_interface_list *list)
 {
     const struct ifaddrs *interface;
+    struct ifaddrs *interfaces;
     int i;
+
+    if (getifaddrs(&interfaces) != 0) {
+        application_fail();
+    }
 
     for (interface = interfaces, i = 0; interface != NULL; interface = interface->ifa_next, i++) {
 
@@ -89,9 +94,11 @@ void network_interface_scan(const struct ifaddrs *interfaces, struct t_weelist *
 
         }
     }
+
+    freeifaddrs(interfaces);
 }
 
-void network_interface_list_free(struct t_weelist *list)
+void network_interface_list_free(struct t_network_interface_list *list)
 {
     struct t_weelist_item *list_item;
 
