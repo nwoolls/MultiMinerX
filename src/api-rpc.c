@@ -24,8 +24,6 @@ bool rpc_is_address_client(struct sockaddr_in target_address)
     if (socket_fd < 0)
         application_fail();
 
-    target_address.sin_family = AF_INET;
-
     socket_ret = connect(socket_fd, (struct sockaddr *)&target_address, sizeof(target_address));
 
     result = socket_ret == 0;
