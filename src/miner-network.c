@@ -7,6 +7,7 @@
 #include "miner-plugin.h"
 #include "utility-application.h"
 #include "utility-network.h"
+#include "api-rpc.h"
 
 void miner_network_scan()
 {
@@ -50,6 +51,16 @@ void miner_network_scan()
 
         weechat_printf(NULL, "%s is open",
                 weechat_list_string(list_item));
+        
+        bool is_client = rpc_is_address_client(*open_address);
+
+        if (is_client)
+            weechat_printf(NULL, "%s IS an RPC client",
+                    weechat_list_string(list_item));
+        else
+            weechat_printf(NULL, "%s is NOT an RPC client",
+                    weechat_list_string(list_item));
+
     }
 
     network_address_list_free(address_list);
