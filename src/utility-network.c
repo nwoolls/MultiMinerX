@@ -206,8 +206,9 @@ void network_port_scan(const struct t_network_interface_list *interface_list,
                 if (network_is_port_open(target_ip, target_port))
                 {
                     struct sockaddr_in *open_address = malloc(sizeof(struct sockaddr_in));
-                    open_address->sin_addr.s_addr = target_ip_l;
-                    open_address->sin_port = target_port;
+                    open_address->sin_family = AF_INET;
+                    open_address->sin_addr.s_addr = htonl(target_ip_l);
+                    open_address->sin_port = htons(target_port);
                     weechat_list_add(address_list, target_address, WEECHAT_LIST_POS_END, open_address);
                 }
             }
