@@ -41,7 +41,7 @@ void miner_network_scan()
         application_fail();
     }
 
-    network_port_scan(interface_list, 4028, 4029, address_list);
+    network_port_scan(interface_list, 4028, 4030, address_list);
 
     for (list_item = address_list->items; list_item;
          list_item = list_item->next_item)
