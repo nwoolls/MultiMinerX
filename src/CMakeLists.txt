@@ -9,4 +9,6 @@ api-rpc.c api-rpc.h)
 
 set_target_properties(miner PROPERTIES PREFIX "")
 
+target_link_libraries(miner jansson)
+
 install(TARGETS miner LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/multiminer/plugins)

@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <weechat-plugin.h>
 #include <wee-list.h>
+#include <stdlib.h>
 
 #include "miner-plugin.h"
 #include "utility-application.h"
@@ -47,15 +48,26 @@ void miner_network_scan()
 
         weechat_printf(NULL, "%s is open",
                 weechat_list_string(list_item));
-        
-        bool is_client = rpc_is_address_server(*open_address);
+
+        struct t_rpc_reply_version *reply_version = rpc_reply_version_new();
+        if(!reply_version) application_fail();
+
+        bool is_client = rpc_is_address_server(*open_address, reply_version);
 
         if (is_client)
-            weechat_printf(NULL, "%s IS an RPC client",
-                    weechat_list_string(list_item));
+        {
+            weechat_printf(NULL, "%s IS an RPC client: %s %s %s %s",
+                    weechat_list_string(list_item),
+                    reply_version->msg,
+                    reply_version->description,
+                    reply_version->miner_version,
+                    reply_version->api_version);
+        }
         else
             weechat_printf(NULL, "%s is NOT an RPC client",
                     weechat_list_string(list_item));
+
+        rpc_reply_version_free(reply_version);
 
     }
 
