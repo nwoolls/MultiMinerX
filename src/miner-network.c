@@ -17,9 +17,7 @@ void miner_network_scan()
 
 
     interface_list = weechat_list_new();
-    if (!interface_list) {
-        application_fail();
-    }
+    if (!interface_list) application_fail();
 
     network_interface_scan(interface_list);
 
@@ -38,9 +36,7 @@ void miner_network_scan()
     }
 
     address_list = weechat_list_new();
-    if (!address_list) {
-        application_fail();
-    }
+    if (!address_list)  application_fail();
 
     network_port_scan(interface_list, 4028, 4030, address_list);
 

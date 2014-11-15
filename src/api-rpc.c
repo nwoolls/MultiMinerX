@@ -20,8 +20,7 @@ bool rpc_is_address_server(struct sockaddr_in target_address)
     bool result;
 
     socket_fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (socket_fd < 0)
-        application_fail();
+    if (socket_fd < 0) application_fail();
 
     result = connect(socket_fd, (struct sockaddr *)&target_address, sizeof(target_address)) == 0;
     if (result)
@@ -32,10 +31,10 @@ bool rpc_is_address_server(struct sockaddr_in target_address)
         char *buffer = malloc(buffer_size +1);
 
         socket_ret = send(socket_fd, RPC_COMMAND_VERSION, strlen(RPC_COMMAND_VERSION), 0);
-        if (socket_ret < 0) {
+        if (socket_ret < 0)
             result = false;
-        }
-        else {
+        else
+        {
             position = 0;
             buffer[0] = '\0';
             while (true)

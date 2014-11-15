@@ -24,9 +24,7 @@ void network_get_address_host(const struct sockaddr *address, const char host[NI
             NI_MAXHOST,
             NULL, 0, NI_NUMERICHOST);
 
-    if (result != 0) {
-        application_fail();
-    }
+    if (result != 0) application_fail();
 }
 
 void network_inet_ntoa(const uint64_t ip_address, const char host[NI_MAXHOST])
@@ -38,8 +36,7 @@ void network_inet_ntoa(const uint64_t ip_address, const char host[NI_MAXHOST])
 
 void network_inet_aton(const char host[NI_MAXHOST], struct in_addr *address)
 {
-    if (!inet_aton(host, address))
-        application_fail();
+    if (!inet_aton(host, address)) application_fail();
 }
 
 void network_get_ip_range(struct t_network_interface_info *network_interface)
@@ -77,8 +74,7 @@ void network_interface_scan(struct t_network_interface_list *interface_list)
     struct ifaddrs *interfaces;
     int i;
 
-    if (getifaddrs(&interfaces) != 0)
-        application_fail();
+    if (getifaddrs(&interfaces) != 0) application_fail();
 
     for (interface = interfaces, i = 0; interface != NULL; interface = interface->ifa_next, i++)
     {
@@ -114,12 +110,10 @@ void network_interface_list_free(struct t_network_interface_list *interface_list
 void network_set_socket_nonblocking(int socket_fd)
 {
     int result;
-    if ((result = fcntl(socket_fd, F_GETFL, NULL)) < 0)
-        application_fail();
+    if ((result = fcntl(socket_fd, F_GETFL, NULL)) < 0) application_fail();
 
     result |= O_NONBLOCK;
-    if (fcntl(socket_fd, F_SETFL, result) < 0)
-        application_fail();
+    if (fcntl(socket_fd, F_SETFL, result) < 0) application_fail();
 }
 
 bool network_is_port_open(const char target_ip[NI_MAXHOST], uint16_t target_port)
@@ -131,8 +125,7 @@ bool network_is_port_open(const char target_ip[NI_MAXHOST], uint16_t target_port
     bool result = false;
 
     socket_fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (socket_fd < 0)
-        application_fail();
+    if (socket_fd < 0) application_fail();
 
     target_address.sin_family = AF_INET;
     target_address.sin_port = htons(target_port);
@@ -171,9 +164,7 @@ void network_port_scan(const struct t_network_interface_list *interface_list,
     struct t_weelist_item *interface_item;
 
     scanned_list = weechat_list_new();
-    if (!scanned_list) {
-        application_fail();
-    }
+    if (!scanned_list) application_fail();
 
     for (interface_item = interface_list->items; interface_item;
          interface_item = interface_item->next_item)
