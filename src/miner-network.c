@@ -52,7 +52,7 @@ void miner_network_scan()
         weechat_printf(NULL, "%s is open",
                 weechat_list_string(list_item));
         
-        bool is_client = rpc_is_address_client(*open_address);
+        bool is_client = rpc_is_address_server(*open_address);
 
         if (is_client)
             weechat_printf(NULL, "%s IS an RPC client",

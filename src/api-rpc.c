@@ -14,7 +14,7 @@
 
 #define RPC_COMMAND_VERSION "{\"command\":\"version\"}"
 
-bool rpc_is_address_client(struct sockaddr_in target_address)
+bool rpc_is_address_server(struct sockaddr_in target_address)
 {
     int socket_fd;
     bool result;

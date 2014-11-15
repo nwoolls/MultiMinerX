@@ -5,6 +5,6 @@
 #define MultiMiner_api_rpc_h
 
 extern
-bool rpc_is_address_client(struct sockaddr_in target_address);
+bool rpc_is_address_server(struct sockaddr_in target_address);
 
 #endif
