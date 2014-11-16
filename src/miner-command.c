@@ -78,9 +78,8 @@ void miner_command_init()
             N_("list or scan network devices"),
             N_("list|listfull|scan"),
             N_("    list: list known network devices\n"
-               "listfull: list known network devices (with details)\n"
-               "    scan: scan network for mining devices\n"
-               "\n"
-               "Examples:\n"),
+                    "listfull: list known network devices (with details)\n"
+                    "    scan: scan network for mining devices\n"
+                    "\n"),
             NULL, &miner_command_network, NULL);
 }

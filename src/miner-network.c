@@ -22,32 +22,40 @@ void miner_network_scan()
 
     network_interface_scan(interface_list);
 
+    weechat_printf(NULL, "Network interfaces:");
+    int count = 0;
+
     for (list_item = interface_list->items; list_item;
          list_item = list_item->next_item)
     {
         struct t_network_interface_info *network_interface = (struct t_network_interface_info *)list_item->user_data;
 
-        weechat_printf(NULL, "%s: Host[%s] Netmask[%s] Broadcast[%s] Range[%s - %s]",
-                weechat_list_string(list_item),
-                network_interface->host,
-                network_interface->netmask,
-                network_interface->broadcast,
+        weechat_printf(NULL, "  %s:", weechat_list_string(list_item));
+        weechat_printf(NULL, "    Host:      %s", network_interface->host);
+        weechat_printf(NULL, "    Netmask:   %s", network_interface->netmask);
+        weechat_printf(NULL, "    Broadcast: %s", network_interface->broadcast);
+        weechat_printf(NULL, "    Range:     %s - %s",
                 network_interface->range_start,
                 network_interface->range_end);
+
+        count++;
     }
+
+    weechat_printf(NULL, "%d interface(s) detected", count);
 
     address_list = weechat_list_new();
     if (!address_list)  application_fail();
 
     network_port_scan(interface_list, 4028, 4030, address_list);
 
+    weechat_printf(NULL, "", count);
+    weechat_printf(NULL, "RPC servers:");
+    count = 0;
+
     for (list_item = address_list->items; list_item;
          list_item = list_item->next_item)
     {
         struct sockaddr_in *open_address = (struct sockaddr_in *)list_item->user_data;
-
-        weechat_printf(NULL, "%s is open",
-                weechat_list_string(list_item));
 
         struct t_rpc_reply_version *reply_version = rpc_reply_version_new();
         if(!reply_version) application_fail();
@@ -56,20 +64,20 @@ void miner_network_scan()
 
         if (is_client)
         {
-            weechat_printf(NULL, "%s IS an RPC client: %s %s %s %s",
+            weechat_printf(NULL, "  %-20s: %-18s API%s[%s%s%s]",
                     weechat_list_string(list_item),
-                    reply_version->msg,
                     reply_version->description,
-                    reply_version->miner_version,
-                    reply_version->api_version);
+                    weechat_color("green"),
+                    weechat_color("cyan"),
+                    reply_version->api_version,
+                    weechat_color("green"));
+            count++;
         }
-        else
-            weechat_printf(NULL, "%s is NOT an RPC client",
-                    weechat_list_string(list_item));
 
         rpc_reply_version_free(reply_version);
-
     }
+
+    weechat_printf(NULL, "%d server(s) detected", count);
 
     network_address_list_free(address_list);
     network_interface_list_free(interface_list);
