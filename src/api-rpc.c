@@ -17,81 +17,48 @@ bool rpc_parse_reply_version(char *reply_text, struct t_rpc_reply_version *reply
 {
     json_error_t error;
     json_t *root = json_loads(reply_text, 0, &error);
-    if(!root)
-    {
-        weechat_printf(NULL, "JSON error on line %d: %s", error.line, error.text);
-        return false;
-    }
 
-    if(!json_is_object(root))
-    {
-        json_decref(root);
-        return false;
-    }
+    if(!root) return false;
+
+    bool result = false;
+
+    if(!json_is_object(root)) goto finally;
 
     json_t *status_arr = json_object_get(root, "STATUS");
-    if(!json_is_array(status_arr))
-    {
-        json_decref(root);
-        return false;
-    }
+    if(!json_is_array(status_arr)) goto finally;
 
     json_t *status_elm = json_array_get(status_arr, 0);
-    if(!json_is_object(status_elm))
-    {
-        json_decref(root);
-        return false;
-    }
+    if(!json_is_object(status_elm)) goto finally;
 
     json_t *msg_elm = json_object_get(status_elm, "Msg");
-    if(!json_is_string(msg_elm))
-    {
-        json_decref(root);
-        return false;
-    }
+    if(!json_is_string(msg_elm)) goto finally;
 
     json_t *description_elm = json_object_get(status_elm, "Description");
-    if(!json_is_string(description_elm))
-    {
-        json_decref(root);
-        return false;
-    }
+    if(!json_is_string(description_elm)) goto finally;
 
     json_t *version_arr = json_object_get(root, "VERSION");
-    if(!json_is_array(version_arr))
-    {
-        json_decref(root);
-        return false;
-    }
+    if(!json_is_array(version_arr)) goto finally;
 
     json_t *version_elm = json_array_get(version_arr, 0);
-    if(!json_is_object(version_elm))
-    {
-        json_decref(root);
-        return false;
-    }
+    if(!json_is_object(version_elm)) goto finally;
 
     json_t *miner_elm = json_object_get(version_elm, "CGMiner");
-    if(!json_is_string(miner_elm))
-    {
-        json_decref(root);
-        return false;
-    }
+    if(!json_is_string(miner_elm)) goto finally;
 
     json_t *api_elm = json_object_get(version_elm, "API");
-    if(!json_is_string(api_elm))
-    {
-        json_decref(root);
-        return false;
-    }
+    if(!json_is_string(api_elm)) goto finally;
 
     reply_version->msg = strdup(json_string_value(msg_elm));
     reply_version->description = strdup(json_string_value(description_elm));
     reply_version->miner_version = strdup(json_string_value(miner_elm));
     reply_version->api_version = strdup(json_string_value(api_elm));
 
-    json_decref(root);
-    return true;
+    finally:
+    {
+        json_decref(root);
+    }
+
+    return result;
 }
 
 bool rpc_is_address_server(struct sockaddr_in target_address, struct t_rpc_reply_version *reply_version)
