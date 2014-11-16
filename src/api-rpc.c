@@ -3,14 +3,13 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
-#include <weechat-plugin.h>
 #include <jansson.h>
 
 #include "api-rpc.h"
 #include "utility-application.h"
-#include "miner-plugin.h"
+#include "utility-network.h"
 
-#define RECV_SIZE 65535
+#define READ_SIZE 65535
 
 #define RPC_COMMAND_VERSION "{\"command\":\"version\"}"
 
@@ -95,11 +94,6 @@ bool rpc_parse_reply_version(char *reply_text, struct t_rpc_reply_version *reply
     return true;
 }
 
-bool rpc_read_from_server(char *buffer)
-{
-
-}
-
 bool rpc_is_address_server(struct sockaddr_in target_address, struct t_rpc_reply_version *reply_version)
 {
     int socket_fd;
@@ -115,46 +109,15 @@ bool rpc_is_address_server(struct sockaddr_in target_address, struct t_rpc_reply
             result = false;
         else
         {
-            char *buffer = malloc(RECV_SIZE + 1);
+            char *buffer = malloc(READ_SIZE + 1);
             if (!buffer) application_fail();
 
-            int position = 0;
-            size_t buffer_size = RECV_SIZE;
-            bool recv_fail = false;
+            result = network_read_from_server(socket_fd, &buffer, READ_SIZE);
 
-            while (true)
-            {
-                if (buffer_size < RECV_SIZE + position)
-                {
-                    buffer_size *= 2;
-                    buffer = realloc(buffer, buffer_size);
-                    if (!buffer) application_fail();
-                }
+            if (result && reply_version)
+                rpc_parse_reply_version(buffer, reply_version);
 
-                socket_ret = recv(socket_fd, &buffer[position], RECV_SIZE, 0);
-
-                if (socket_ret < 0)
-                {
-                    recv_fail = true;
-                    buffer[buffer_size] = '\0';
-                    break;
-                }
-
-                if (socket_ret == 0) break;
-
-                position += socket_ret;
-                buffer[position] = '\0';
-            }
-
-            if (!recv_fail)
-            {
-                result = buffer && (strlen(buffer) > 0);
-
-                if (result && reply_version)
-                    rpc_parse_reply_version(buffer, reply_version);
-            }
-
-            free(buffer);
+           free(buffer);
         }
     }
     close(socket_fd);

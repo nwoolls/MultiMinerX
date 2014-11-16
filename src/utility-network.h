@@ -1,4 +1,5 @@
 #include <netdb.h>
+#include <wee-list.h>
 
 #ifndef MultiMiner_utility_network_h
 #define MultiMiner_utility_network_h
@@ -44,5 +45,12 @@ extern
 void network_port_scan(const struct t_network_interface_list *interface_list,
         uint16_t port_start, uint16_t port_end,
         struct t_sockaddr_in_list *address_list);
+
+/*
+ * Read read_size from the network socket into the buffer until the socket
+ * is empty
+ */
+extern
+bool network_read_from_server(int socket_fd, char **pbuffer, size_t read_size);
 
 #endif

@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <weechat-plugin.h>
-#include <wee-list.h>
 #include <unistd.h>
 #include <sys/fcntl.h>
 #include <stdio.h>
@@ -220,4 +219,40 @@ void network_address_list_free(struct t_sockaddr_in_list *address_list)
     }
 
     weechat_list_free(address_list);
+}
+
+bool network_read_from_server(int socket_fd, char **pbuffer, size_t read_size)
+{
+    int position = 0;
+    size_t buffer_size = read_size;
+    bool recv_fail = false;
+    char *buffer = *pbuffer;
+
+    while (true)
+    {
+        if (buffer_size < read_size + position)
+        {
+            buffer_size *= 2;
+            buffer = realloc(buffer, buffer_size);
+            if (!buffer) application_fail();
+        }
+
+        ssize_t socket_ret = recv(socket_fd, &buffer[position], read_size, 0);
+
+        if (socket_ret < 0)
+        {
+            recv_fail = true;
+            buffer[buffer_size] = '\0';
+            break;
+        }
+
+        if (socket_ret == 0) break;
+
+        position += socket_ret;
+        buffer[position] = '\0';
+    }
+
+    *pbuffer = buffer;
+
+    return !recv_fail && buffer && (strlen(buffer) > 0);
 }
