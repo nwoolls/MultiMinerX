@@ -10,17 +10,8 @@
 #include "utility-network.h"
 #include "api-rpc.h"
 
-void miner_network_scan()
+void miner_network_output_interfaces(struct t_network_interface_list *interface_list)
 {
-	struct t_network_interface_list *interface_list;
-	struct t_sockaddr_in_list *address_list;
-
-
-	interface_list = weechat_list_new();
-	if (!interface_list) application_fail();
-
-	network_interface_scan(interface_list);
-
 	weechat_printf(NULL, "Network interfaces:");
 	int count = 0;
 
@@ -41,15 +32,12 @@ void miner_network_scan()
 	}
 
 	weechat_printf(NULL, "%d interface(s) detected", count);
+}
 
-	address_list = weechat_list_new();
-	if (!address_list) application_fail();
-
-	network_port_scan(interface_list, 4028, 4030, address_list);
-
-	weechat_printf(NULL, "", count);
+void miner_network_output_rpc_servers(struct t_sockaddr_in_list *address_list)
+{
 	weechat_printf(NULL, "RPC servers:");
-	count = 0;
+	int count = 0;
 
 	for (const struct t_weelist_item *list_item = address_list->items; list_item;
 		 list_item = list_item->next_item)
@@ -77,6 +65,21 @@ void miner_network_scan()
 	}
 
 	weechat_printf(NULL, "%d server(s) detected", count);
+}
+
+void miner_network_scan()
+{
+	struct t_network_interface_list *interface_list = weechat_list_new();
+	if (!interface_list) application_fail();
+	network_interface_scan(interface_list);
+
+	struct t_sockaddr_in_list *address_list = weechat_list_new();
+	if (!address_list) application_fail();
+	network_port_scan(interface_list, 4028, 4030, address_list);
+
+	miner_network_output_interfaces(interface_list);
+	weechat_printf(NULL, "");
+	miner_network_output_rpc_servers(address_list);
 
 	network_address_list_free(address_list);
 	network_interface_list_free(interface_list);
