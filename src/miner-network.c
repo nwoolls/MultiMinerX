@@ -14,7 +14,6 @@ void miner_network_scan()
 {
     struct t_network_interface_list *interface_list;
     struct t_sockaddr_in_list *address_list;
-    struct t_weelist_item *list_item;
 
 
     interface_list = weechat_list_new();
@@ -25,7 +24,7 @@ void miner_network_scan()
     weechat_printf(NULL, "Network interfaces:");
     int count = 0;
 
-    for (list_item = interface_list->items; list_item;
+    for (struct t_weelist_item *list_item = interface_list->items; list_item;
          list_item = list_item->next_item)
     {
         struct t_network_interface_info *network_interface = (struct t_network_interface_info *)list_item->user_data;
@@ -52,7 +51,7 @@ void miner_network_scan()
     weechat_printf(NULL, "RPC servers:");
     count = 0;
 
-    for (list_item = address_list->items; list_item;
+    for (struct t_weelist_item *list_item = address_list->items; list_item;
          list_item = list_item->next_item)
     {
         struct sockaddr_in *open_address = (struct sockaddr_in *)list_item->user_data;

@@ -69,12 +69,11 @@ void network_get_network_interface(const struct ifaddrs *interface, struct t_net
 
 void network_interface_scan(struct t_network_interface_list *interface_list)
 {
-    const struct ifaddrs *interface;
     struct ifaddrs *interfaces;
-    int i;
-
     if (getifaddrs(&interfaces) != 0) application_fail();
 
+    int i;
+    const struct ifaddrs *interface;
     for (interface = interfaces, i = 0; interface != NULL; interface = interface->ifa_next, i++)
     {
         if (interface->ifa_addr == NULL) continue;
@@ -95,8 +94,7 @@ void network_interface_scan(struct t_network_interface_list *interface_list)
 
 void network_interface_list_free(struct t_network_interface_list *interface_list)
 {
-    struct t_weelist_item *interface_item;
-    for (interface_item = interface_list->items; interface_item;
+    for (struct t_weelist_item *interface_item = interface_list->items; interface_item;
          interface_item = interface_item->next_item)
     {
         struct t_network_interface_info *network_interface = (struct t_network_interface_info *) interface_item->user_data;
@@ -106,38 +104,41 @@ void network_interface_list_free(struct t_network_interface_list *interface_list
     weechat_list_free(interface_list);
 }
 
-void network_set_socket_nonblocking(int socket_fd)
+void network_set_socket_blocking(int socket_fd, bool blocking)
 {
-    int result;
-    if ((result = fcntl(socket_fd, F_GETFL, NULL)) < 0) application_fail();
+    int flags;
+    if ((flags = fcntl(socket_fd, F_GETFL, NULL)) < 0) application_fail();
 
-    result |= O_NONBLOCK;
-    if (fcntl(socket_fd, F_SETFL, result) < 0) application_fail();
+    if (blocking)
+        flags &= ~O_NONBLOCK;
+    else
+        flags |= O_NONBLOCK;
+
+    if (fcntl(socket_fd, F_SETFL, flags) < 0) application_fail();
 }
 
 bool network_is_port_open(const char target_ip[NI_MAXHOST], uint16_t target_port)
 {
-    int socket_fd;
-    struct sockaddr_in target_address;
-    struct timeval tv;
-    fd_set fdset;
     bool result = false;
 
-    socket_fd = socket(AF_INET, SOCK_STREAM, 0);
+    int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (socket_fd < 0) application_fail();
 
+    network_set_socket_blocking(socket_fd, false);
+
+    struct sockaddr_in target_address;
     target_address.sin_family = AF_INET;
     target_address.sin_port = htons(target_port);
     target_address.sin_addr.s_addr = inet_addr(target_ip);
 
-    network_set_socket_nonblocking(socket_fd);
-
     connect(socket_fd, (struct sockaddr *)&target_address, sizeof(target_address));
 
+    fd_set fdset;
     FD_ZERO(&fdset);
     FD_SET(socket_fd, &fdset);
 
-    //100ms
+    //100ms timeout
+    struct timeval tv;
     tv.tv_sec = 0;
     tv.tv_usec = 100000;
 
@@ -160,21 +161,19 @@ void network_port_scan(const struct t_network_interface_list *interface_list,
         struct t_sockaddr_in_list *address_list)
 {
     struct t_weelist *scanned_list;
-    struct t_weelist_item *interface_item;
-
     scanned_list = weechat_list_new();
     if (!scanned_list) application_fail();
 
-    for (interface_item = interface_list->items; interface_item;
+    for (struct t_weelist_item *interface_item = interface_list->items; interface_item;
          interface_item = interface_item->next_item)
     {
         struct t_network_interface_info *network_interface = (struct t_network_interface_info *) interface_item->user_data;
-        struct in_addr range_start_address, range_end_address;
-        in_addr_t range_start_l, range_end_l;
 
+        struct in_addr range_start_address, range_end_address;
         network_inet_aton(network_interface->range_start, &range_start_address);
         network_inet_aton(network_interface->range_end, &range_end_address);
 
+        in_addr_t range_start_l, range_end_l;
         range_start_l = ntohl(range_start_address.s_addr);
         range_end_l = ntohl(range_end_address.s_addr);
 
@@ -210,8 +209,7 @@ void network_port_scan(const struct t_network_interface_list *interface_list,
 
 void network_address_list_free(struct t_sockaddr_in_list *address_list)
 {
-    struct t_weelist_item *address_item;
-    for (address_item = address_list->items; address_item;
+    for (struct t_weelist_item *address_item = address_list->items; address_item;
          address_item = address_item->next_item)
     {
         struct sockaddr_in *network_address = (struct sockaddr_in *) address_item->user_data;
@@ -225,7 +223,7 @@ bool network_read_from_server(int socket_fd, char **pbuffer, size_t read_size)
 {
     int position = 0;
     size_t buffer_size = read_size;
-    bool recv_fail = false;
+    bool read_fail = false;
     char *buffer = *pbuffer;
 
     while (true)
@@ -241,7 +239,7 @@ bool network_read_from_server(int socket_fd, char **pbuffer, size_t read_size)
 
         if (socket_ret < 0)
         {
-            recv_fail = true;
+            read_fail = true;
             buffer[buffer_size] = '\0';
             break;
         }
@@ -254,5 +252,5 @@ bool network_read_from_server(int socket_fd, char **pbuffer, size_t read_size)
 
     *pbuffer = buffer;
 
-    return !recv_fail && buffer && (strlen(buffer) > 0);
+    return !read_fail && buffer && (strlen(buffer) > 0);
 }

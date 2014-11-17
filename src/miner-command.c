@@ -15,13 +15,9 @@ int miner_command_device(void *data, struct t_gui_buffer *buffer, int argc,
 
 	if ((weechat_strcasecmp(argv[1], "list") == 0) ||
 		(weechat_strcasecmp(argv[1], "listfull") == 0))
-	{
 		weechat_printf(NULL, "list|listfull");
-	}
 	else if (weechat_strcasecmp(argv[1], "probe") == 0)
-	{
 		weechat_printf(NULL, "probe");
-	}
 	else if (weechat_strcasecmp(argv[1], "scan") == 0)
 	{
 		weechat_printf(NULL, "scan");
@@ -45,13 +41,9 @@ int miner_command_network(void *data, struct t_gui_buffer *buffer, int argc,
     const bool list_details = weechat_strcasecmp(argv[1], "listfull") == 0;
 
     if ((weechat_strcasecmp(argv[1], "list") == 0) || list_details)
-    {
         miner_network_list(list_details);
-    }
     else if (weechat_strcasecmp(argv[1], "scan") == 0)
-    {
         miner_network_scan();
-    }
     else
         return WEECHAT_RC_ERROR;
 
