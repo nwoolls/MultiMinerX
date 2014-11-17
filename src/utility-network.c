@@ -97,7 +97,7 @@ void network_interface_list_free(struct t_network_interface_list *interface_list
     for (const struct t_weelist_item *interface_item = interface_list->items; interface_item;
          interface_item = interface_item->next_item)
     {
-        struct t_network_interface_info *network_interface = (struct t_network_interface_info *) interface_item->user_data;
+        struct t_network_interface_info *network_interface = (struct t_network_interface_info *)interface_item->user_data;
         free(network_interface);
     }
 
@@ -167,7 +167,7 @@ void network_port_scan(const struct t_network_interface_list *interface_list,
     for (const struct t_weelist_item *interface_item = interface_list->items; interface_item;
          interface_item = interface_item->next_item)
     {
-        struct t_network_interface_info *network_interface = (struct t_network_interface_info *) interface_item->user_data;
+        struct t_network_interface_info *network_interface = (struct t_network_interface_info *)interface_item->user_data;
 
         struct in_addr range_start_address, range_end_address;
         network_inet_aton(network_interface->range_start, &range_start_address);
@@ -212,7 +212,7 @@ void network_address_list_free(struct t_sockaddr_in_list *address_list)
     for (const struct t_weelist_item *address_item = address_list->items; address_item;
          address_item = address_item->next_item)
     {
-        struct sockaddr_in *network_address = (struct sockaddr_in *) address_item->user_data;
+        struct sockaddr_in *network_address = (struct sockaddr_in *)address_item->user_data;
         free(network_address);
     }
 
