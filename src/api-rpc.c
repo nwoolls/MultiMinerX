@@ -11,7 +11,14 @@
 
 #define READ_SIZE 65535
 
-#define RPC_COMMAND_VERSION "{\"command\":\"version\"}"
+#define RPC_S_STATUS            "STATUS"
+#define RPC_S_MSG               "Msg"
+#define RPC_S_DESCRIPTION       "Description"
+#define RPC_S_VERSION           "VERSION"
+#define RPC_S_CGMINER           "CGMiner"
+#define RPC_S_API               "API"
+
+#define RPC_COMMAND_VERSION     "{\"command\":\"version\"}"
 
 bool rpc_parse_reply_version(char *reply_text, struct t_rpc_reply_version *reply_version)
 {
@@ -24,28 +31,28 @@ bool rpc_parse_reply_version(char *reply_text, struct t_rpc_reply_version *reply
 
     if(!json_is_object(root)) goto finally;
 
-    json_t *status_arr = json_object_get(root, "STATUS");
+    json_t *status_arr = json_object_get(root, RPC_S_STATUS);
     if(!json_is_array(status_arr)) goto finally;
 
     json_t *status_elm = json_array_get(status_arr, 0);
     if(!json_is_object(status_elm)) goto finally;
 
-    json_t *msg_elm = json_object_get(status_elm, "Msg");
+    json_t *msg_elm = json_object_get(status_elm, RPC_S_MSG);
     if(!json_is_string(msg_elm)) goto finally;
 
-    json_t *description_elm = json_object_get(status_elm, "Description");
+    json_t *description_elm = json_object_get(status_elm, RPC_S_DESCRIPTION);
     if(!json_is_string(description_elm)) goto finally;
 
-    json_t *version_arr = json_object_get(root, "VERSION");
+    json_t *version_arr = json_object_get(root, RPC_S_VERSION);
     if(!json_is_array(version_arr)) goto finally;
 
     json_t *version_elm = json_array_get(version_arr, 0);
     if(!json_is_object(version_elm)) goto finally;
 
-    json_t *miner_elm = json_object_get(version_elm, "CGMiner");
+    json_t *miner_elm = json_object_get(version_elm, RPC_S_CGMINER);
     if(!json_is_string(miner_elm)) goto finally;
 
-    json_t *api_elm = json_object_get(version_elm, "API");
+    json_t *api_elm = json_object_get(version_elm, RPC_S_API);
     if(!json_is_string(api_elm)) goto finally;
 
     reply_version->msg = strdup(json_string_value(msg_elm));
