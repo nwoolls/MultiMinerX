@@ -14,14 +14,14 @@ struct t_weechat_plugin *weechat_miner_plugin = NULL;
 
 int weechat_plugin_init(struct t_weechat_plugin *plugin, int argc, char *argv[])
 {
-    weechat_miner_plugin = plugin;
+	weechat_miner_plugin = plugin;
 
-    miner_command_init();
+	miner_command_init();
 
-    return WEECHAT_RC_OK;
+	return WEECHAT_RC_OK;
 }
 
 int weechat_plugin_end(struct t_weechat_plugin *plugin)
 {
-    return WEECHAT_RC_OK;
+	return WEECHAT_RC_OK;
 }

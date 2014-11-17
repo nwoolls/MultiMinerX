@@ -5,6 +5,6 @@
 
 void application_fail()
 {
-    fprintf(stderr, "%s\n", strerror(errno));
-    exit(EXIT_FAILURE);
+	fprintf(stderr, "%s\n", strerror(errno));
+	exit(EXIT_FAILURE);
 }

@@ -4,12 +4,13 @@
 #ifndef MultiMiner_utility_network_h
 #define MultiMiner_utility_network_h
 
-struct t_network_interface_info {
-    char host[NI_MAXHOST];
-    char netmask[NI_MAXHOST];
-    char broadcast[NI_MAXHOST];
-    char range_start[NI_MAXHOST];
-    char range_end[NI_MAXHOST];
+struct t_network_interface_info
+{
+	char host[NI_MAXHOST];
+	char netmask[NI_MAXHOST];
+	char broadcast[NI_MAXHOST];
+	char range_start[NI_MAXHOST];
+	char range_end[NI_MAXHOST];
 };
 
 #define t_network_interface_list t_weelist
@@ -43,8 +44,8 @@ void network_address_list_free(struct t_sockaddr_in_list *address_list);
  */
 extern
 void network_port_scan(const struct t_network_interface_list *interface_list,
-        uint16_t port_start, uint16_t port_end,
-        struct t_sockaddr_in_list *address_list);
+		uint16_t port_start, uint16_t port_end,
+		struct t_sockaddr_in_list *address_list);
 
 /*
  * Read read_size from the network socket into the buffer until the socket
