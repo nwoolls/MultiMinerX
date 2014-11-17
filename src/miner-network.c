@@ -24,12 +24,12 @@ void miner_network_scan()
     weechat_printf(NULL, "Network interfaces:");
     int count = 0;
 
-    for (struct t_weelist_item *list_item = interface_list->items; list_item;
+    for (const struct t_weelist_item *list_item = interface_list->items; list_item;
          list_item = list_item->next_item)
     {
         struct t_network_interface_info *network_interface = (struct t_network_interface_info *)list_item->user_data;
 
-        weechat_printf(NULL, "  %s:", weechat_list_string(list_item));
+        weechat_printf(NULL, "  %s:", weechat_list_string((struct t_weelist_item *)list_item));
         weechat_printf(NULL, "    Host:      %s", network_interface->host);
         weechat_printf(NULL, "    Netmask:   %s", network_interface->netmask);
         weechat_printf(NULL, "    Broadcast: %s", network_interface->broadcast);
@@ -51,10 +51,10 @@ void miner_network_scan()
     weechat_printf(NULL, "RPC servers:");
     count = 0;
 
-    for (struct t_weelist_item *list_item = address_list->items; list_item;
+    for (const struct t_weelist_item *list_item = address_list->items; list_item;
          list_item = list_item->next_item)
     {
-        struct sockaddr_in *open_address = (struct sockaddr_in *)list_item->user_data;
+        const struct sockaddr_in *open_address = (struct sockaddr_in *)list_item->user_data;
 
         struct t_rpc_reply_version *reply_version = rpc_reply_version_new();
         if(!reply_version) application_fail();
@@ -64,7 +64,7 @@ void miner_network_scan()
         if (is_client)
         {
             weechat_printf(NULL, "  %-20s: %-18s API%s[%s%s%s]",
-                    weechat_list_string(list_item),
+                    weechat_list_string((struct t_weelist_item *)list_item),
                     reply_version->description,
                     weechat_color("green"),
                     weechat_color("cyan"),
